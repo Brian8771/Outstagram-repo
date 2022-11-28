@@ -1,16 +1,20 @@
-from .db import db
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 # from flask_login import UserMixin
 
 post_likes = db.Table(
   "post_likes",
-  db.Column("postId", db.Integer, db.ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True),
-  db.Column("userId", db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+  db.Column("postId", db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id"), ondelete="CASCADE"), primary_key=True),
+  db.Column("userId", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id"), ondelete="CASCADE"), primary_key=True)
 )
+if environment == "production":
+    post_likes.schema = SCHEMA
 
 class Post(db.Model):
   __tablename__ = "posts"
+  if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
   id = db.Column(db.Integer, primary_key=True)
   userId = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)

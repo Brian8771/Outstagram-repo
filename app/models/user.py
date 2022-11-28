@@ -1,5 +1,4 @@
-
-from .db import db
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 # from sqlalchemy ForeignKey
 from sqlalchemy.orm import relationship
@@ -9,12 +8,16 @@ from .comments import comment_likes
 
 follows = db.Table(
     "follows",
-    db.Column("follower_id", db.Integer, db.ForeignKey("users.id", ondelete="CASCADE")),
-    db.Column("followed_id", db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"))
+    db.Column("follower_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id"), ondelete="CASCADE")),
+    db.Column("followed_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id"), ondelete="CASCADE"))
 )
+if environment == "production":
+    follows.schema = SCHEMA
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
