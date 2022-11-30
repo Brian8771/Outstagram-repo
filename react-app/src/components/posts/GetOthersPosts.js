@@ -109,7 +109,7 @@ const GetOthersPosts = () => {
                                             ))}
                                         </>
                                     </div>
-                                    <button type="submit">submit</button>
+                                    <button type="submit">Submit</button>
                                 </form>
                             </div>
                         </Modal>
