@@ -9,6 +9,7 @@ import '../../styles/LoginForm.css';
 import UploadPicture from "../uploadPicture/uploadPicture";
 import { Modal } from "../../context/Modal";
 import './GetOthersPosts.css';
+import ClipLoader from "react-spinners/ClipLoader";
 // test deploy
 
 const GetOthersPosts = () => {
@@ -26,7 +27,7 @@ const GetOthersPosts = () => {
     const [profileImage, setProfileImage] = useState(session?.profile_image);
     const [errors, setErrors] = useState([]);
     const [usernameValidationErrors, setUsernameValidationErrors] = useState([]);
-
+    const [loader, setLoader] = useState(false)
 
 
     const handleFollows = async (userId) => {
@@ -36,7 +37,8 @@ const GetOthersPosts = () => {
 
 
     useEffect(() => {
-        dispatch(getOthersPostsThunk(userId)).then(dispatch(grabUserInfo(userId))).then(() => setPostsIsLoaded(true));
+        setLoader(true)
+        dispatch(getOthersPostsThunk(userId)).then(dispatch(grabUserInfo(userId))).then(() => setPostsIsLoaded(true)).then(() => setLoader(false));
     }, [dispatch, userId]);
 
     useEffect(() => {
@@ -72,91 +74,101 @@ const GetOthersPosts = () => {
     }
 
 
-    return (postsIsLoaded && <div className="section">
-        <div className="top-container">
-            <div className="left-part">
-                <img className="profile-img" alt="" src={user.profile_image}></img>
+    return (postsIsLoaded &&
+        <div className="section">
+            {loader ?
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                    <ClipLoader
+                        color='black'
+                        loading={loader}
+                        size={50}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                </div>
+                :
+                <div className="top-container">
+                    <div className="left-part">
+                        <img className="profile-img" alt="" src={user.profile_image}></img>
 
-            </div>
-            <div className="right-part">
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <h2 className="top-name">{user.username}</h2>
-                    {session.id !== user.id ?
-                        <button style={{ fontSize: '14px', marginLeft: '60px', width: '95px', heigth: '35px' }} className={user.follow_status === 1 ? "unfollow-button" : "login-button"} onClick={() => handleFollows(userId)}>{user.follow_status === 1 ? 'Unfollow' : 'Follow'}</button> :
-                        <button className="edit-profile-button" onClick={() => setShowEditProfileModal(true)}>Edit Profile</button>
-                    }
-                    {
-                        showEditProfileModal &&
-                        <Modal onClose={() => setShowEditProfileModal(false)}>
-                            <div className="edit-profile-modal-container">
-                                <h1>Edit Your Profile</h1>
-                                <UploadPicture setProfileImage={setProfileImage} action='editProfile' />
-                                <form className="edit-profile-form" onSubmit={handleSubmit}>
-                                    <ul>
-                                        {errors.map((error, idx) => (
-                                            <li key={idx} className='error'>{error}</li>
-                                        ))}
-                                    </ul>
-                                    <div className="edit-profile-form-username">
-                                        <label>User Name:</label>
-                                        <input
-                                            type="text"
-                                            style={{ marginBottom: '1rem' }}
-                                            name="user name"
-                                            onChange={e => { setUsername(e.target.value) }}
-                                            value={username}
-                                            autoComplete='off'
-                                        ></input>
-                                        <label>Bio:</label>
-                                        <input
-                                            type="text"
-                                            name="bio"
-                                            onChange={e => { setBio(e.target.value) }}
-                                            value={bio}
-                                            autoComplete='off'
-                                        ></input>
-                                        <>
-                                            {usernameValidationErrors.map((error, idx) => (
-                                                <li key={idx} className='error'>{error}</li>
-                                            ))}
-                                        </>
-                                    </div>
-                                    <button type="submit">Submit</button>
-                                </form>
-                            </div>
-                        </Modal>
-                    }
-
-                </div>
-                <div className="mid-nums">
-                    <p style={{ fontWeight: '400' }}><span style={{ fontWeight: '600' }}>{user.total_posts}</span>posts</p>
-                    <p style={{ fontWeight: '400' }}><span style={{ fontWeight: '600' }}>{user.total_followers - 1}</span>{(user.total_followers - 1) > 1 ? "followers" : "follower"}</p>
-                    <p style={{ fontWeight: '400' }}><span style={{ fontWeight: '600' }}>{user.total_followings}</span>{user.total_followings > 1 ? "followings" : "following"}</p>
-                </div>
-                <div className="bottom-fullname">
-                    <p className="userFullname">{user.fullname}</p>
-                    <p className="userBio">{user.bio}</p>
-                </div>
-            </div>
-        </div>
-        <div className="mid-container"></div>
-        <div className="bottom-container">
-            {postsList.map(post => (
-                <div className="img-container" key={post.id}>
-                    <NavLink to={`/posts/${post.id}`}>
-                        <img className="post-img" alt="" src={post.imageUrl} />
-                    </NavLink>
-                    <div className="hover-text">
-                        {/* <p>{post.totalLikes}</p>
-                        <p>{post.totalComments}</p> */}
                     </div>
-                </div>)
-            ).reverse()
-            }
-        </div>
-    </div>
+                    <div className="right-part">
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <h2 className="top-name">{user.username}</h2>
+                            {session.id !== user.id ?
+                                <button style={{ fontSize: '14px', marginLeft: '60px', width: '95px', heigth: '35px' }} className={user.follow_status === 1 ? "unfollow-button" : "login-button"} onClick={() => handleFollows(userId)}>{user.follow_status === 1 ? 'Unfollow' : 'Follow'}</button> :
+                                <button className="edit-profile-button" onClick={() => setShowEditProfileModal(true)}>Edit Profile</button>
+                            }
+                            {
+                                showEditProfileModal &&
+                                <Modal onClose={() => setShowEditProfileModal(false)}>
+                                    <div className="edit-profile-modal-container">
+                                        <h1>Edit Your Profile</h1>
+                                        <UploadPicture setProfileImage={setProfileImage} action='editProfile' />
+                                        <form className="edit-profile-form" onSubmit={handleSubmit}>
+                                            <ul>
+                                                {errors.map((error, idx) => (
+                                                    <li key={idx} className='error'>{error}</li>
+                                                ))}
+                                            </ul>
+                                            <div className="edit-profile-form-username">
+                                                <label>User Name:</label>
+                                                <input
+                                                    type="text"
+                                                    style={{ marginBottom: '1rem' }}
+                                                    name="user name"
+                                                    onChange={e => { setUsername(e.target.value) }}
+                                                    value={username}
+                                                    autoComplete='off'
+                                                ></input>
+                                                <label>Bio:</label>
+                                                <input
+                                                    type="text"
+                                                    name="bio"
+                                                    onChange={e => { setBio(e.target.value) }}
+                                                    value={bio}
+                                                    autoComplete='off'
+                                                ></input>
+                                                <>
+                                                    {usernameValidationErrors.map((error, idx) => (
+                                                        <li key={idx} className='error'>{error}</li>
+                                                    ))}
+                                                </>
+                                            </div>
+                                            <button type="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                </Modal>
+                            }
 
-    )
+                        </div>
+                        <div className="mid-nums">
+                            <p style={{ fontWeight: '400' }}><span style={{ fontWeight: '600' }}>{user.total_posts}</span>posts</p>
+                            <p style={{ fontWeight: '400' }}><span style={{ fontWeight: '600' }}>{user.total_followers - 1}</span>{(user.total_followers - 1) > 1 ? "followers" : "follower"}</p>
+                            <p style={{ fontWeight: '400' }}><span style={{ fontWeight: '600' }}>{user.total_followings}</span>{user.total_followings > 1 ? "followings" : "following"}</p>
+                        </div>
+                        <div className="bottom-fullname">
+                            <p className="userFullname">{user.fullname}</p>
+                            <p className="userBio">{user.bio}</p>
+                        </div>
+                    </div>
+                </div>}
+            {!loader && <div className="mid-container"></div>}
+            {!loader && <div className="bottom-container">
+                {postsList.map(post => (
+                    <div className="img-container" key={post.id}>
+                        <NavLink to={`/posts/${post.id}`}>
+                            <img className="post-img" alt="" src={post.imageUrl} />
+                        </NavLink>
+                        <div className="hover-text">
+                            {/* <p>{post.totalLikes}</p>
+                        <p>{post.totalComments}</p> */}
+                        </div>
+                    </div>)
+                ).reverse()
+                }
+            </div>}
+        </div>)
 }
 
 

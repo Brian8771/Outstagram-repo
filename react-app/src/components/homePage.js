@@ -117,7 +117,7 @@ const HomePage = () => {
                     <ClipLoader
                         color='black'
                         loading={loader}
-                        size={30}
+                        size={50}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                     />
