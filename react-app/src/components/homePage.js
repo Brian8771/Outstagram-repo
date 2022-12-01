@@ -17,6 +17,7 @@ import tingPic from '../Images/ting-pic.jpg'
 import zhihongPic from '../Images/zhihong-pic.jpg'
 import { createCommentThunk } from "../store/comment";
 import icon from "../assets/commenticon.png"
+import ClipLoader from "react-spinners/ClipLoader";
 
 const HomePage = () => {
     const history = useHistory()
@@ -30,12 +31,14 @@ const HomePage = () => {
     const [postId, setPostId] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [refresh, setRefresh] = useState(true)
+    const [loader, setLoader] = useState(false)
 
 
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
-        dispatch(postActions.getAllPostsThunk()).then(() => setIsLoaded(true))
+        setLoader(true)
+        dispatch(postActions.getAllPostsThunk()).then(() => setIsLoaded(true)).then(() => setLoader(false))
     }, [dispatch])
 
     const addEmoji = (emojiData, event) => {
@@ -109,95 +112,106 @@ const HomePage = () => {
     return (
         <div>
 
-            {isLoaded && <div className="home-page-container">
-                <div className="posts-list">
-                    {posts &&
-                        posts.map(post =>
-                            <div className="post-wrapper">
-                                <div className="post-header-wrapper">
-                                    <NavLink to={`/users/${post.userId}/posts`}>
-                                        <img src={post.user.profileImage} alt="user-profile-pic" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover' }} />
-                                    </NavLink>
-                                    <NavLink className="post-header-username-homepage" to={`/users/${post.userId}/posts`}>
-                                        <div>{post.user.username}</div>
-                                    </NavLink>
-                                </div>
-                                <NavLink to={`/posts/${post.id}`}>
-                                    <div className="post-img">
-                                        <img style={{ objectFit: 'cover' }} src={post.imageUrl} alt='image' />
-                                    </div>
-                                </NavLink>
-
-                                <div className="post-body-like-comment-icons" >
-                                    <div onClick={() => handleLikes(post.id)}>
-
-                                        {refresh && post.likeStatus === 1 ?
-                                            <img src={likedIcon} alt="like-button-icon" className="like-button-icon" style={{ height: '24px', width: '24px', cursor: 'pointer' }} />
-                                            :
-                                            <img src={likeIcon} alt="like-button-icon" className="like-button-icon" style={{ height: '24px', width: '24px', cursor: 'pointer' }} />
-                                        }
-
-                                    </div>
-
-
-
-                                    <NavLink to={`/posts/${post.id}`}>
-                                        <img src={commentIcon} alt="comment-button-icon" className="comment-button-icon" style={{ height: '24px', width: '24px' }} />
-                                    </NavLink>
-
-                                </div>
-
-                                <div className="post-like-counter-wrapper">
-                                    <p className="post-like-counter">{post.totalLikes} likes</p>
-                                </div>
-                                <div className="post-body-username-description-wrapper">
-                                    <NavLink className="post-header-username" to={`/posts/${post.id}`}>
-                                        <div style={{ display: 'flex', marginBottom: '8px' }}>
-                                            <p style={{ fontWeight: '600', marginRight: '4px' }}>{post.user.username}</p>
-                                            <p className="post-body-description">{post.description}</p>
-                                        </div>
-                                        <div className="view-comment-counter">
-                                            {post.totalComments > 0 ? <p>View all {post.totalComments} comment(s)</p> : <></>}
-                                        </div>
-                                        <div className="view-comment-counter">
-                                            <p style={{ fontSize: '12px' }}>{timeAfterCreated(post.createdAt)}</p>
-                                        </div>
-                                    </NavLink>
-                                </div>
-                                <div className="post-body-comments-wrapper">
-                                    {/* <div className="comment-content-box"> */}
-                                    <form className="home-page-comment-form" onSubmit={handleSubmit}>
-                                        {selectedPost === post.id && showEmoji ?
-                                            <div style={{ position: 'absolute', bottom: '110%' }}>
-                                                <EmojiPicker className='emoji-container'
-                                                    onEmojiClick={addEmoji}
-                                                    width={325}
-                                                    height={333}
-
-                                                />
-                                            </div>
-                                            : <></>}
-                                        <div className="comment-emoj-icon" >
-                                            <img src={icon} className='emoji-button' alt='' onClick={() => { setShowEmoji(!showEmoji); setSeletedPost(post.id) }} />
-                                            <textarea
-                                                value={content}
-                                                placeholder=' Add a comment...'
-                                                onChange={e => setContent(e.target.value)}
-                                                style={{ overflow: 'break-word', outline: 'none', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
-                                                onFocus={() => setPostId(post.id)}
-                                                maxLength={201}
-                                            />
-                                            <button id='submit-comment-button' type="submit" onClick={handleSubmit}>Post</button>
-                                        </div>
-                                    </form>
-                                    {/* </div> */}
-
-                                </div>
-                            </div>
-                        ).reverse()
-                    }
+            {loader ?
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                    <ClipLoader
+                        color='black'
+                        loading={loader}
+                        size={30}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
                 </div>
-            </div>}
+                :
+                <div className="home-page-container">
+                    <div className="posts-list">
+                        {posts &&
+                            posts.map(post =>
+                                <div className="post-wrapper">
+                                    <div className="post-header-wrapper">
+                                        <NavLink to={`/users/${post.userId}/posts`}>
+                                            <img src={post.user.profileImage} alt="user-profile-pic" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover' }} />
+                                        </NavLink>
+                                        <NavLink className="post-header-username-homepage" to={`/users/${post.userId}/posts`}>
+                                            <div>{post.user.username}</div>
+                                        </NavLink>
+                                    </div>
+                                    <NavLink to={`/posts/${post.id}`}>
+                                        <div className="post-img">
+                                            <img style={{ objectFit: 'cover' }} src={post.imageUrl} alt='image' />
+                                        </div>
+                                    </NavLink>
+
+                                    <div className="post-body-like-comment-icons" >
+                                        <div onClick={() => handleLikes(post.id)}>
+
+                                            {refresh && post.likeStatus === 1 ?
+                                                <img src={likedIcon} alt="like-button-icon" className="like-button-icon" style={{ height: '24px', width: '24px', cursor: 'pointer' }} />
+                                                :
+                                                <img src={likeIcon} alt="like-button-icon" className="like-button-icon" style={{ height: '24px', width: '24px', cursor: 'pointer' }} />
+                                            }
+
+                                        </div>
+
+
+
+                                        <NavLink to={`/posts/${post.id}`}>
+                                            <img src={commentIcon} alt="comment-button-icon" className="comment-button-icon" style={{ height: '24px', width: '24px' }} />
+                                        </NavLink>
+
+                                    </div>
+
+                                    <div className="post-like-counter-wrapper">
+                                        <p className="post-like-counter">{post.totalLikes} likes</p>
+                                    </div>
+                                    <div className="post-body-username-description-wrapper">
+                                        <NavLink className="post-header-username" to={`/posts/${post.id}`}>
+                                            <div style={{ display: 'flex', marginBottom: '8px' }}>
+                                                <p style={{ fontWeight: '600', marginRight: '4px' }}>{post.user.username}</p>
+                                                <p className="post-body-description">{post.description}</p>
+                                            </div>
+                                            <div className="view-comment-counter">
+                                                {post.totalComments > 0 ? <p>View all {post.totalComments} comment(s)</p> : <></>}
+                                            </div>
+                                            <div className="view-comment-counter">
+                                                <p style={{ fontSize: '12px' }}>{timeAfterCreated(post.createdAt)}</p>
+                                            </div>
+                                        </NavLink>
+                                    </div>
+                                    <div className="post-body-comments-wrapper">
+                                        {/* <div className="comment-content-box"> */}
+                                        <form className="home-page-comment-form" onSubmit={handleSubmit}>
+                                            {selectedPost === post.id && showEmoji ?
+                                                <div style={{ position: 'absolute', bottom: '110%' }}>
+                                                    <EmojiPicker className='emoji-container'
+                                                        onEmojiClick={addEmoji}
+                                                        width={325}
+                                                        height={333}
+
+                                                    />
+                                                </div>
+                                                : <></>}
+                                            <div className="comment-emoj-icon" >
+                                                <img src={icon} className='emoji-button' alt='' onClick={() => { setShowEmoji(!showEmoji); setSeletedPost(post.id) }} />
+                                                <textarea
+                                                    value={content}
+                                                    placeholder=' Add a comment...'
+                                                    onChange={e => setContent(e.target.value)}
+                                                    style={{ overflow: 'break-word', outline: 'none', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
+                                                    onFocus={() => setPostId(post.id)}
+                                                    maxLength={201}
+                                                />
+                                                <button id='submit-comment-button' type="submit" onClick={handleSubmit}>Post</button>
+                                            </div>
+                                        </form>
+                                        {/* </div> */}
+
+                                    </div>
+                                </div>
+                            ).reverse()
+                        }
+                    </div>
+                </div>}
             <div className="suggested-hire-outer-wrapper">
 
                 <div className="suggested-hire-wrapper">
