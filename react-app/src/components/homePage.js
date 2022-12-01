@@ -21,19 +21,21 @@ import icon from "../assets/commenticon.png"
 const HomePage = () => {
     const history = useHistory()
     const dispatch = useDispatch()
-    const posts = Object.values(useSelector(state => state.post))
+    const posts = Object.values(useSelector(state => state.post.post))
     const session = useSelector(state => state.session.user);
     const [emoji, setEmoji] = useState('')
     const [showEmoji, setShowEmoji] = useState(false)
     const [selectedPost, setSeletedPost] = useState(null)
     const [content, setContent] = useState('')
     const [postId, setPostId] = useState(null)
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [refresh, setRefresh] = useState(true)
 
 
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
-        dispatch(postActions.getAllPostsThunk())
+        dispatch(postActions.getAllPostsThunk()).then(() => setIsLoaded(true))
     }, [dispatch])
 
     const addEmoji = (emojiData, event) => {
@@ -45,7 +47,10 @@ const HomePage = () => {
 
 
     const handleLikes = async (postId) => {
-        return dispatch(likePostThunk(postId))
+        await dispatch(likePostThunk(postId))
+        await setRefresh(false)
+        await dispatch(postActions.getAllPostsThunk())
+        await setRefresh(true)
     }
 
 
@@ -102,14 +107,13 @@ const HomePage = () => {
 
 
     return (
-        <>
+        <div>
 
-            <div className="home-page-container">
+            {isLoaded && <div className="home-page-container">
                 <div className="posts-list">
                     {posts &&
                         posts.map(post =>
                             <div className="post-wrapper">
-
                                 <div className="post-header-wrapper">
                                     <NavLink to={`/users/${post.userId}/posts`}>
                                         <img src={post.user.profileImage} alt="user-profile-pic" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover' }} />
@@ -126,7 +130,8 @@ const HomePage = () => {
 
                                 <div className="post-body-like-comment-icons" >
                                     <div onClick={() => handleLikes(post.id)}>
-                                        {post.likeStatus === 1 ?
+
+                                        {refresh && post.likeStatus === 1 ?
                                             <img src={likedIcon} alt="like-button-icon" className="like-button-icon" style={{ height: '24px', width: '24px', cursor: 'pointer' }} />
                                             :
                                             <img src={likeIcon} alt="like-button-icon" className="like-button-icon" style={{ height: '24px', width: '24px', cursor: 'pointer' }} />
@@ -192,7 +197,7 @@ const HomePage = () => {
                         ).reverse()
                     }
                 </div>
-            </div>
+            </div>}
             <div className="suggested-hire-outer-wrapper">
 
                 <div className="suggested-hire-wrapper">
@@ -264,7 +269,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-        </>
+        </div>
     )
 }
 

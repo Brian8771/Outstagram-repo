@@ -158,67 +158,66 @@ export const likePostThunk = (postId) => async dispatch => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({})
+    },
+    body: JSON.stringify({})
   });
   if (response.ok) {
     const data = await response.json();
 
-    dispatch(likePost(postId, data.totalLikes, data.likeStatus ))
+    dispatch(likePost(postId, data.totalLikes, data.likeStatus))
   }
   return response
 }
 
 
 
-const initialState = {};
+const initialState = { post: {}, otherPosts: {} };
 
 export default function reducer(state = initialState, action) {
 
-    let newState;
-    switch (action.type) {
-      case GET_OWN_POSTS: {
-        newState = action.posts.Posts;
-        return newState;
-      }
-      case GET_OTHERS_POSTS: {
-        newState = action.posts.Posts;
-        return newState;
-      }
-      case GET_POST_DETAIL: {
-        newState = {...state}
-        newState[action.post.id] = action.post
-        return newState
-      }
-      case CREATE_POST: {
-        newState ={...state}
-        newState[action.newPost.id] = action.newPost
-        return newState
-      }
-      case UPDATE_POST:{
-        newState={...state}
-        newState[action.post.id] = action.post
-        return newState
-      }
-      case DELETE_POST:{
-        newState = {...state}
-        delete newState[action.postId]
-        return newState
-      }
-      case LIKE_POST: {
-        newState = {...state}
-        newState[action.postId] = {...newState[action.postId], totalLikes:action.totalLikes, likeStatus: action.likeStatus }
-        return newState
-      }
-      case GET_ALL_POSTS:
-        newState = { ...state }
 
-        Object.values(action.posts.Posts).forEach(post => {
-          newState[post.id] = post
-        })
-        return newState
+  const newState = { ...state }
+  switch (action.type) {
+    case GET_OWN_POSTS: {
+      newState.post = action.posts.Posts;
+      return newState;
+    }
+    case GET_OTHERS_POSTS: {
+      newState.otherPosts = action.posts.Posts;
+      return newState;
+    }
+    case GET_POST_DETAIL: {
+      newState.post[action.post.id] = action.post
+      return newState
+    }
+    case CREATE_POST: {
 
-      default:
-        return state;
+      newState.post[action.newPost.id] = action.newPost
+      return newState
+    }
+    case UPDATE_POST: {
+
+      newState.post[action.post.id] = action.post
+      return newState
+    }
+    case DELETE_POST: {
+
+      delete newState.post[action.postId]
+      return newState
+    }
+    case LIKE_POST: {
+
+      newState.post[action.postId] = { ...newState.post[action.postId], totalLikes: action.totalLikes, likeStatus: action.likeStatus }
+      return newState
+    }
+    case GET_ALL_POSTS:
+
+      Object.values(action.posts.Posts).forEach(post => {
+        newState.post[post.id] = post
+      })
+      return newState
+
+    default:
+      return state;
   }
 }

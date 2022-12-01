@@ -13,7 +13,7 @@ import './GetOthersPosts.css';
 
 const GetOthersPosts = () => {
     const dispatch = useDispatch();
-    const posts = useSelector(state => state.post);
+    const posts = useSelector(state => state.post.otherPosts);
     const session = useSelector(state => state.session.user);
     const user = useSelector(state => state.session.users);
 

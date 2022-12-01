@@ -15,7 +15,7 @@ const PostDetail = () => {
     const dispatch = useDispatch();
     const { postId } = useParams();
     const history = useHistory()
-    const post = useSelector(state => state.post[postId]);
+    const post = useSelector(state => state.post.post[postId]);
     const session = useSelector(state => state.session.user);
     const [postIsLoaded, setPostIsLoaded] = useState(false);
     const [editModal, setEditModal] = useState(false);
@@ -32,7 +32,7 @@ const PostDetail = () => {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        return dispatch(deletePostThunk(postId)).then(() => history.push('/session/posts'))
+        return dispatch(deletePostThunk(postId)).then(() => history.push('/'))
     }
 
     const handleLikes = async (postId) => {
