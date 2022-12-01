@@ -22,6 +22,7 @@ const GetOthersPosts = () => {
     const { userId } = useParams();
     const [showEditProfileModal, setShowEditProfileModal] = useState(false);
     const [username, setUsername] = useState(session?.username);
+    const [bio, setBio] = useState(session?.bio);
     const [profileImage, setProfileImage] = useState(session?.profile_image);
     const [errors, setErrors] = useState([]);
     const [usernameValidationErrors, setUsernameValidationErrors] = useState([]);
@@ -53,7 +54,8 @@ const GetOthersPosts = () => {
         setErrors([]);
         const userProfile = {
             username,
-            profile_image: profileImage
+            profile_image: profileImage,
+            bio
         }
 
         dispatch(editSessionProfileThunk(userId, userProfile))
@@ -99,9 +101,19 @@ const GetOthersPosts = () => {
                                         <label>User Name:</label>
                                         <input
                                             type="text"
+                                            style={{ marginBottom: '1rem' }}
                                             name="user name"
                                             onChange={e => { setUsername(e.target.value) }}
                                             value={username}
+                                            autoComplete='off'
+                                        ></input>
+                                        <label>Bio:</label>
+                                        <input
+                                            type="text"
+                                            name="bio"
+                                            onChange={e => { setBio(e.target.value) }}
+                                            value={bio}
+                                            autoComplete='off'
                                         ></input>
                                         <>
                                             {usernameValidationErrors.map((error, idx) => (

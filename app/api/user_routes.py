@@ -42,6 +42,7 @@ def edit_user_profile(user_id):
     if form.validate_on_submit():
         user.username = form.data['username']
         user.profile_image = form.data['profile_image']
+        user.bio = form.data['bio']
 
         db.session.commit()
         return user.to_dict()
