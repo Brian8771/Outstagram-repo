@@ -55,6 +55,7 @@ const CreatePostForm = ({ hideModal }) => {
                 <div className="input-container">
                     <div>
                         <input
+                            style={{ fontSize: '16px', width: '230px' }}
                             type={'text'}
                             value={description}
                             placeholder="Description..."

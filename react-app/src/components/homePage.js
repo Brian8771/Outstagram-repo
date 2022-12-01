@@ -120,7 +120,7 @@ const HomePage = () => {
                                 </div>
                                 <NavLink to={`/posts/${post.id}`}>
                                     <div className="post-img">
-                                        <img src={post.imageUrl} alt='image' />
+                                        <img style={{ objectFit: 'cover' }} src={post.imageUrl} alt='image' />
                                     </div>
                                 </NavLink>
 

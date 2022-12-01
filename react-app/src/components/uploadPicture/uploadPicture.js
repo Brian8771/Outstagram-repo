@@ -53,7 +53,6 @@ const UploadPicture = ({ setProfileImage, setImageUrl, action }) => {
         <div className="image-upload-container">
             {url && <img className={action === 'createPost' ? 'image-upload-createPost' : 'image-upload-editProfile'} alt='' src={url} />}
             <div className="image-upload-form-container">
-                <h3>Upload Your Image:</h3>
                 <form style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} onSubmit={handleSubmit}>
                     <input
                         id='file-upload'

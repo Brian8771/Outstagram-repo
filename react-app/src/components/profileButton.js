@@ -56,7 +56,7 @@ function ProfileButton() {
       <div className='pro-drop-menu'>
         <h4 style={{ cursor: 'default' }}>{user.username}</h4>
         <ul>
-          <li><img style={{ height: '20px', width: '21px' }} src={user.profile_image} /><NavLink to={`/users/${user.id}/posts`}><p>My Profile</p></NavLink></li>
+          <li><img style={{ height: '20px', width: '21px' }} src={user.profile_image} /><NavLink to={`/users/${user.id}/posts`}><p style={{ color: 'black' }}>My Profile</p></NavLink></li>
           {/* <li><img src='https://www.nicepng.com/png/detail/368-3689520_email-icons-grey-email-icon-pink-png.png' /><NavLink to={`/users/${user.id}/posts`}><p>{user.email}</p></NavLink></li> */}
           <li ><img src='https://png.pngtree.com/png-vector/20190425/ourmid/pngtree-vector-logout-icon-png-image_991952.jpg' /><LogoutButton /></li>
 

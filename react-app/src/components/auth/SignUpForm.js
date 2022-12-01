@@ -132,6 +132,7 @@ const SignUpForm = () => {
           <div className='input-wrapper-div'>
             <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>User Name</label>
             <input
+              className='eraseOutline'
               type='text'
               name='username'
               onChange={updateUsername}
@@ -142,6 +143,7 @@ const SignUpForm = () => {
           <div className='input-wrapper-div'>
             <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>Email</label>
             <input
+              className='eraseOutline'
               type='text'
               name='email'
               onChange={updateEmail}
@@ -152,6 +154,7 @@ const SignUpForm = () => {
           <div className='input-wrapper-div'>
             <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>Full Name</label>
             <input
+              className='eraseOutline'
               type='text'
               name='fullname'
               onChange={updateFullname}
@@ -163,6 +166,7 @@ const SignUpForm = () => {
             <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>Password</label>
             {/* {password && <button className="show-password-button" onClick={togglePassword}>{showPasswordText ? 'Show' : 'Hide'}</button>} */}
             <input
+              className='eraseOutline'
               type={"password"}
               name='password'
               onChange={updatePassword}
@@ -175,6 +179,7 @@ const SignUpForm = () => {
             <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>Repeat Password</label>
             {/* {repeatPassword && <button className="show-password-button" onClick={togglePassword2}>{repeatShowPasswordText ? 'Show' : 'Hide'}</button>} */}
             <input
+              className='eraseOutline'
               type={"password"}
               name='repeat_password'
               onChange={updateRepeatPassword}

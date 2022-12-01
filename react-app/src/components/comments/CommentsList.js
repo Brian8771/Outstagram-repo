@@ -86,7 +86,7 @@ const GetComments = ({ postId }) => {
                             <div className="comment-list-create-like">
                                 <p className="comment-list-create">{timeAfterCreated(comment.createdAt)}</p>
                                 {!!comment.totalLikes && (comment.totalLikes === 1 ? <p className="like-button" >1 like</p> : <p className="like-button">{comment.totalLikes} likes</p>)}
-                                {session.id === comment.userId && <button className="login-button" style={{ width: '40px', padding: '0px', margin: '15px 0', marginBottom: '4px', fontSize: '12px', height: '25px' }} onClick={() => handleDelete(postId, comment.id)}>Delete</button>}
+                                {session.id === comment.userId && <button className="delete-button" onClick={() => handleDelete(postId, comment.id)}>Delete</button>}
                             </div>
                         </div>
                     </div>

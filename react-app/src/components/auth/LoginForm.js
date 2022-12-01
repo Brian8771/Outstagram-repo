@@ -94,6 +94,7 @@ const LoginForm = () => {
           <div className='input-wrapper-div'>
             <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>Email</label>
             <input
+              style={{ outline: '0' }}
               name='email'
               type='text'
               value={email}
@@ -106,7 +107,7 @@ const LoginForm = () => {
               <label style={{ width: '210px', padding: '2px' }} className='password-form-label'>Password</label>
               {password && <button className="show-password-button" ></button>}
               <input
-                // style={{ width: '210px', maxWidth: '220px', overflowX: 'auto' }}
+                style={{ outline: '0' }}
                 name='password'
                 type="password"
                 // placeholder='Password'
@@ -119,7 +120,7 @@ const LoginForm = () => {
               <button type='submit' className='login-button'>Log In</button>
             </div>
             <div>
-              <button onClick={() => demoLogIn()} className='login-button'>Demo User Log In</button>
+              <button onClick={() => demoLogIn()} className='login-button'>Demo Log In</button>
             </div>
             <div style={{ marginTop: '12px' }}>
               {errors.map((error, ind) => (
