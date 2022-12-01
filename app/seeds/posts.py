@@ -110,10 +110,61 @@ def seed_posts():
     )
     post17 = Post(
         userId = 9,
-        description = "Is putting hearts in leaves bad for the environment? You be the",
+        description = "Is putting hearts in leaves bad for the environment? You be the judge.",
         image_url = "https://cdn.pixabay.com/photo/2016/10/27/22/53/heart-1776746__340.jpg",
         post_like_users = [User.query.get(1),User.query.get(3) , User.query.get(2)]
     )
+    post18 = Post(
+        userId = 1,
+        description = 'Love PTO',
+        image_url = 'https://cdn.pixabay.com/photo/2022/08/20/22/25/sea-7400124_1280.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post19 = Post(
+        userId = 4,
+        description = 'Cool jellyfish I saw',
+        image_url = 'https://cdn.pixabay.com/photo/2022/11/07/09/37/portuguese-man-o-war-7576019_1280.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post20 = Post(
+        userId = 3,
+        description = 'My new cat :)',
+        image_url = 'https://cdn.pixabay.com/photo/2022/10/19/22/15/cat-7533717__480.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post21 = Post(
+        userId = 1,
+        description = 'Cool bird I saw',
+        image_url = 'https://cdn.pixabay.com/photo/2022/11/17/21/15/great-spotted-woodpecker-7598894_1280.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post22 = Post(
+        userId = 2,
+        description = 'Went on a cool hike',
+        image_url = 'https://cdn.pixabay.com/photo/2022/11/13/18/09/canyon-7589820_1280.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post23 = Post(
+        userId = 4,
+        description = 'Not too bad for rush hour :)',
+        image_url = 'https://cdn.pixabay.com/photo/2022/05/22/11/10/highway-7213206_1280.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post24 = Post(
+        userId = 1,
+        description = 'Crab I saw at the beach',
+        image_url = 'https://cdn.pixabay.com/photo/2022/10/14/09/57/crab-7520956_1280.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+    post25 = Post(
+        userId = 6,
+        description = 'Dont ask me how I got this shot',
+        image_url = 'https://cdn.pixabay.com/photo/2022/10/25/13/04/papilio-ornythion-7545781__480.jpg',
+        post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
+    )
+
+
+
 
     db.session.add(post1)
     db.session.add(post2)
@@ -132,6 +183,14 @@ def seed_posts():
     db.session.add(post15)
     db.session.add(post16)
     db.session.add(post17)
+    db.session.add(post18)
+    db.session.add(post19)
+    db.session.add(post20)
+    db.session.add(post21)
+    db.session.add(post22)
+    db.session.add(post23)
+    db.session.add(post24)
+    db.session.add(post25)
 
 
     db.session.commit()

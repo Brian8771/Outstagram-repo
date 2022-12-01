@@ -7,6 +7,7 @@ from app.forms.create_comment import CreateCommentForm
 import json
 from app.api.AWS_upload import (
     upload_file_to_s3, allowed_file, get_unique_filename)
+from sqlalchemy import desc
 
 
 post_routes = Blueprint('posts', __name__)
@@ -22,7 +23,6 @@ def get_all_posts_from_users():
         post_dict = post.to_dict()
         post_dict["likeStatus"] = 1 if len(like_status) > 0 else 0
         res[post.id] = post_dict
-
     return {"Posts": res}
 
 

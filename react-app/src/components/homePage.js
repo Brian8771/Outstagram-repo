@@ -21,7 +21,7 @@ import icon from "../assets/commenticon.png"
 const HomePage = () => {
     const history = useHistory()
     const dispatch = useDispatch()
-    const posts = Object.values(useSelector(state => state.post)).reverse()
+    const posts = Object.values(useSelector(state => state.post))
     const session = useSelector(state => state.session.user);
     const [emoji, setEmoji] = useState('')
     const [showEmoji, setShowEmoji] = useState(false)
@@ -189,7 +189,7 @@ const HomePage = () => {
 
                                 </div>
                             </div>
-                        )
+                        ).reverse()
                     }
                 </div>
             </div>
