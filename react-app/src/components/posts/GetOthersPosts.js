@@ -74,7 +74,7 @@ const GetOthersPosts = () => {
     }
 
 
-    return (postsIsLoaded &&
+    return (
         <div className="section">
             {loader ?
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
