@@ -212,7 +212,7 @@ const HomePage = () => {
                         }
                     </div>
                 </div>}
-            <div className="suggested-hire-outer-wrapper">
+            {!loader && <div className="suggested-hire-outer-wrapper">
 
                 <div className="suggested-hire-wrapper">
                     <h3 className="suggested-devs-to-hire-message">Suggested Dev's To Hire:</h3>
@@ -281,7 +281,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
         </div>
     )
