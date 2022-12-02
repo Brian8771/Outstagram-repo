@@ -155,8 +155,8 @@ const GetOthersPosts = () => {
                             </div>
                         </div>
                     </div>}
-                    {!loader && <div className="mid-container"></div>}
-                    {!loader && <div className="bottom-container">
+                    {!loader && user.id == Number(userId) && <div className="mid-container"></div>}
+                    {!loader && user.id == Number(userId) && <div className="bottom-container">
                         {postsList.map(post => (
                             <div className="img-container" key={post.id}>
                                 <NavLink to={`/posts/${post.id}`}>
