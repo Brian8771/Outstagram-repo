@@ -122,7 +122,7 @@ def seed_posts():
     )
     post19 = Post(
         userId = 4,
-        description = 'Cool jellyfish I saw',
+        description = 'I saw a manowar today 😦',
         image_url = 'https://cdn.pixabay.com/photo/2022/11/07/09/37/portuguese-man-o-war-7576019_1280.jpg',
         post_like_users = [User.query.get(2), User.query.get(6), User.query.get(4)]
     )
