@@ -67,6 +67,9 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
