@@ -48,17 +48,24 @@
 }
 
 @media screen and (max-width:1500px) {
+    .outDiv {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+
     .suggested-hire-wrapper {
 
         width: 470px;
-        left: auto;
         display: flex;
         /* left: 23vw; */
         /* right: auto; */
+        top: 20px;
         justify-content: center;
         flex-direction: column;
         width: auto;
-        right: auto;
+        position: relative;
+        right: 0;
     }
 
     .suggested-hire-outer-wrapper {
@@ -71,7 +78,7 @@
     }
 
     .posts-list {
-        margin-top: 550px;
+        margin-top: 70px;
         margin-right: 0;
     }
 }

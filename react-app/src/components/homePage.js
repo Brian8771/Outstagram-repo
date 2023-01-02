@@ -110,7 +110,7 @@ const HomePage = () => {
 
 
     return (
-        <div>
+        <div className="outDiv">
 
             {loader ?
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
